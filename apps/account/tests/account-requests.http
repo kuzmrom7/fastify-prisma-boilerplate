@@ -1,0 +1,19 @@
+### Login email
+POST http://localhost:3003/api/account/login/email HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "kuzmrom7@gmail.com"
+}
+
+### validate code
+POST http://localhost:3003/api/account/login/email/validate-code HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "kuzmrom7@gmail.com",
+  "code": "87886"
+}
+
+### Get your profile 
+GET http://localhost:3003/api/account/profile HTTP/1.1
