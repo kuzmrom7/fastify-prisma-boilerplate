@@ -1,6 +1,6 @@
 import { FastifySchema } from 'fastify';
 
-export const loginEmailSchema: FastifySchema = {
+export const AccountLoginEmailValidateCodeSchema: FastifySchema = {
   body: {
     type: 'object',
     properties: {

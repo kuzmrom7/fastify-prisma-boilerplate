@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import { disconnectDatabase } from './libs/ database/connect';
+import { disconnectDatabase } from './libs/db/connect';
 
 const PORT = process.env.PORT || 3000;
 
@@ -31,8 +31,8 @@ app.setErrorHandler(async (err, _, reply) => {
 });
 
 // API ROUTES
-app.register(import('./apps/account/account.routes'), {
-  prefix: '/api/account',
+app.register(import('./apps/accounts/account-routes'), {
+  prefix: '/api',
 });
 app.get('/healthcheck', (_, res) => {
   res.send({ message: 'Success' });
