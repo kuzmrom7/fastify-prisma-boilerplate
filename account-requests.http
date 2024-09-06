@@ -3,7 +3,7 @@ POST http://localhost:3003/api/account/login/email HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "kuzmrom7@gmail.com"
+  "email": "admin@gmail.com"
 }
 
 ### validate code
@@ -11,9 +11,13 @@ POST http://localhost:3003/api/account/login/email/validate-code HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "kuzmrom7@gmail.com",
-  "code": "4015"
+  "email": "admin@gmail.com",
+  "code": "94259"
 }
 
 ### Get your profile 
 GET http://localhost:3003/api/account/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MjU2MDQ3NjcsImV4cCI6MTcyNTYwNTY2N30.38IbHTTuMxtg2J_qgxZPAB695Kf9NQ9FNa3QPknTzMw
+
+### Get your profile 
+POST http://localhost:3003/api/auth/refresh-token HTTP/1.1

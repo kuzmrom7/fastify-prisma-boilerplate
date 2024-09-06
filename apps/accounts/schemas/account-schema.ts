@@ -21,6 +21,9 @@ export const AccountLoginEmailValidateCodeSchema: FastifySchema = {
             phone: { type: 'string' },
           },
         },
+        token: {
+          type: 'string',
+        },
       },
     },
   },

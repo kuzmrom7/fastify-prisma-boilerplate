@@ -1,11 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { createAccount, getAccountProfile } from './services/account-service';
 import { sendEmailCode } from '../../libs/mailer/send-mail';
-import {
-  saveEmailCode,
-  getEmailCode,
-  deleteEmailCode,
-} from './services/email-code-service';
+import { saveEmailCode, getEmailCode, deleteEmailCode } from './services/email-code-service';
+import { generatedAccessToken, generatedRefreshToken } from '../../libs/jwt/jwt';
 
 type LoginEmailAccountBody = {
   email: string;
@@ -16,22 +13,17 @@ type LoginEmailAccountValidateCodeBody = {
   email: string;
 };
 
-export async function getProfile(_: FastifyRequest, reply: FastifyReply) {
-  // TODO: id from session (например, вытаскиваем ID из сессии)
-  const profile = await getAccountProfile(1); // Типизируйте возвращаемые данные
+export async function getProfile(req: FastifyRequest, reply: FastifyReply) {
+  const profile = await getAccountProfile(Number((req.user as { id: number }).id));
 
   if (!profile) {
-    reply.code(404).send({ message: 'profile not found' });
-    return;
+    return reply.code(404).send({ message: 'profile not found' });
   }
 
   reply.send({ profile });
 }
 
-export async function loginEmail(
-  req: FastifyRequest<{ Body: LoginEmailAccountBody }>,
-  reply: FastifyReply
-) {
+export async function loginEmail(req: FastifyRequest<{ Body: LoginEmailAccountBody }>, reply: FastifyReply) {
   const { email } = req.body;
   const generatedCode = Math.floor(Math.random() * 100000);
   // 2. save code
@@ -71,11 +63,24 @@ export async function loginEmailValidateCode(
     return reply.code(409).send();
   }
 
-  reply.code(200).send({
-    profile: {
-      id: account?.id,
-      email: account?.email,
-      phone: account?.phone,
-    },
-  });
+  const accessToken = await generatedAccessToken(req.jwt, account.id, account.email);
+  const refreshToken = await generatedRefreshToken(req.jwt, account.id, account.email);
+
+  reply
+    .setCookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: false,
+      path: '/',
+      sameSite: 'strict',
+      maxAge: 604800, // 7 days
+    })
+    .code(200)
+    .send({
+      token: accessToken,
+      profile: {
+        id: account?.id,
+        email: account?.email,
+        phone: account?.phone,
+      },
+    });
 }

@@ -1,16 +1,45 @@
-import Fastify from 'fastify';
+import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import fastifyJWT, { JWT } from '@fastify/jwt';
+import fastifyCookie from '@fastify/cookie';
+
 import { disconnectDatabase } from './libs/db/connect';
 
-const PORT = process.env.PORT || 3000;
+declare module 'fastify' {
+  interface FastifyInstance {
+    authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+  }
+  interface FastifyRequest {
+    jwt: JWT;
+  }
+}
 
-// FASTIFY INSTANCE
+const PORT = process.env.PORT || 3000;
+const API_PREFIX = process.env.API_PREFIX || '/api';
+
 const app = Fastify({
   logger: {
     level: 'info',
   },
 });
 
-// SWAGGER-UI
+// authentication
+app.register(fastifyJWT, { secret: String(process.env.JWT_SECRET) }); // todo: move to key file
+app.register(fastifyCookie);
+app.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
+  try {
+    // Authorization: Bearer <token>
+    await request.jwtVerify();
+  } catch (err) {
+    console.error(err);
+    return reply.code(401).send({ message: 'Unauthorized' });
+  }
+});
+app.addHook('preHandler', (request: FastifyRequest, _, next) => {
+  request.jwt = app.jwt;
+  return next();
+});
+
+// swagger
 app.register(import('@fastify/swagger'));
 app.register(import('@fastify/swagger-ui'), {
   routePrefix: '/api/docs',
@@ -32,7 +61,10 @@ app.setErrorHandler(async (err, _, reply) => {
 
 // API ROUTES
 app.register(import('./apps/accounts/account-routes'), {
-  prefix: '/api',
+  prefix: API_PREFIX,
+});
+app.register(import('./apps/auth/auth-routes'), {
+  prefix: API_PREFIX,
 });
 app.get('/healthcheck', (_, res) => {
   res.send({ message: 'Success' });
@@ -53,11 +85,12 @@ const listeners = ['SIGINT', 'SIGTERM'];
 listeners.forEach((signal) => {
   process.on(signal, async () => {
     await app.close();
+    await disconnectDatabase();
     process.exit(0);
   });
 });
 
-/* START */
+// START
 main()
   .then(async () => {
     await disconnectDatabase();
