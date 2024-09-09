@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ### Get your profile 
 GET http://localhost:3003/api/account/profile HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MjU2MDQ3NjcsImV4cCI6MTcyNTYwNTY2N30.38IbHTTuMxtg2J_qgxZPAB695Kf9NQ9FNa3QPknTzMw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoidGVzdEB0ZXN0LnJ1IiwiaWF0IjoxNzI1ODgwNjY0LCJleHAiOjE3MjU4ODE1NjR9.Ycj-3SA4g3s2bk1MB_HsZ0CW06yj0exjqf4Byxl2YfM
 
 ### Get your profile 
 POST http://localhost:3003/api/auth/refresh-token HTTP/1.1
