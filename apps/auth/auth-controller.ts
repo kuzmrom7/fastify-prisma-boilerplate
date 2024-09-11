@@ -31,7 +31,6 @@ export async function refreshAccessToken(req: FastifyRequest, reply: FastifyRepl
 export async function loginEmail(req: FastifyRequest<{ Body: LoginEmailAccountBody }>, reply: FastifyReply) {
   const { email } = req.body;
   const generatedCode = Math.floor(Math.random() * 100000);
-  // 2. save code
   await saveEmailCode(email, generatedCode);
   try {
     sendEmailCode(email, generatedCode);
@@ -52,16 +51,14 @@ export async function loginEmailValidateCode(
   // 1. verify code
   const emailCode = await getEmailCode(email);
   if (!emailCode) {
-    return reply.code(400).send({ message: 'code not found' });
+    return reply.code(400).send({ message: 'Code not found' });
   }
 
   if (emailCode !== Number(code)) {
-    return reply.code(400).send({ message: 'code not match' });
+    return reply.code(400).send({ message: 'Code not match' });
   }
 
-  // 2. if ok create or get profile
   const account = await createAccount({ email });
-  // 3. delete code
   await deleteEmailCode(email);
 
   if (!account) {

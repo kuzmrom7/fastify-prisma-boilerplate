@@ -15,6 +15,7 @@ declare module 'fastify' {
 
 const PORT = process.env.PORT || 3000;
 const API_PREFIX = process.env.API_PREFIX || '/api';
+const SWAGGER_PATH = process.env.SWAGGER_PATH || '/api/docs';
 
 const app = Fastify({
   logger: {
@@ -42,7 +43,7 @@ app.addHook('preHandler', (request: FastifyRequest, _, next) => {
 // swagger
 app.register(import('@fastify/swagger'));
 app.register(import('@fastify/swagger-ui'), {
-  routePrefix: '/api/docs',
+  routePrefix: SWAGGER_PATH,
   uiConfig: {
     docExpansion: 'full',
     deepLinking: false,
@@ -59,7 +60,7 @@ app.setErrorHandler(async (err, _, reply) => {
   reply.code(500).send({ message: 'Internal server error', err: err });
 });
 
-// API ROUTES
+// api routes
 app.register(import('./apps/accounts/account-routes'), {
   prefix: API_PREFIX,
 });
@@ -80,7 +81,7 @@ async function main() {
   });
 }
 
-// SYSTEM SHUTDOWN
+// shutdown
 const listeners = ['SIGINT', 'SIGTERM'];
 listeners.forEach((signal) => {
   process.on(signal, async () => {
@@ -90,7 +91,6 @@ listeners.forEach((signal) => {
   });
 });
 
-// START
 main()
   .then(async () => {
     await disconnectDatabase();
