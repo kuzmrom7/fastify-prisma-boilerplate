@@ -8,7 +8,8 @@ Simple boilerplate for Fastify.js, TypeScript, PrismaORM. Without an overhead wi
 - login:
   - with email code validation
   - oauth2: google, vk, yandex (todo)
-- email sender (todo)
+- email sender
+- Dockerfile (todo), docker-compose (todo)
 
 ## Command for PrismaORM
 ```sh

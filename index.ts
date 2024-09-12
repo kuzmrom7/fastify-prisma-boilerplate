@@ -3,6 +3,7 @@ import fastifyJWT, { JWT } from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 
 import { disconnectDatabase } from './libs/db/connect';
+import { config } from './config';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -13,10 +14,6 @@ declare module 'fastify' {
   }
 }
 
-const PORT = process.env.PORT || 3000;
-const API_PREFIX = process.env.API_PREFIX || '/api';
-const SWAGGER_PATH = process.env.SWAGGER_PATH || '/api/docs';
-
 const app = Fastify({
   logger: {
     level: 'info',
@@ -24,7 +21,7 @@ const app = Fastify({
 });
 
 // authentication
-app.register(fastifyJWT, { secret: String(process.env.JWT_SECRET) }); // todo: move to key file
+app.register(fastifyJWT, { secret: config.jwt.secret }); // todo: move to key file
 app.register(fastifyCookie);
 app.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
   try {
@@ -43,7 +40,7 @@ app.addHook('preHandler', (request: FastifyRequest, _, next) => {
 // swagger
 app.register(import('@fastify/swagger'));
 app.register(import('@fastify/swagger-ui'), {
-  routePrefix: SWAGGER_PATH,
+  routePrefix: config.app.swaggerPath,
   uiConfig: {
     docExpansion: 'full',
     deepLinking: false,
@@ -62,17 +59,17 @@ app.setErrorHandler(async (err, _, reply) => {
 
 // api routes
 app.register(import('./apps/accounts/account-routes'), {
-  prefix: API_PREFIX,
+  prefix: config.app.apiPrefix,
 });
 app.register(import('./apps/auth/auth-routes'), {
-  prefix: API_PREFIX,
+  prefix: config.app.apiPrefix,
 });
 app.get('/healthcheck', (_, res) => {
   res.send({ message: 'Success' });
 });
 
 async function main() {
-  app.listen({ port: +PORT }, (err, address) => {
+  app.listen({ port: +config.app.port }, (err, address) => {
     if (err) {
       console.error(err);
       process.exit(1);

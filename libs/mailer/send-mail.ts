@@ -1,27 +1,41 @@
+import path from 'node:path';
 import nodemailer from 'nodemailer';
+import ejs from 'ejs';
+
+import { config } from '../../config';
+
+const transporter = nodemailer.createTransport({
+  service: config.mail.client,
+  port: 465, // Port server (587 for TLS or 465 for SSL)
+  secure: false, // true for 465, false for another ports
+  auth: {
+    user: config.mail.user,
+    pass: config.mail.password,
+  },
+});
+
+const fileName = path.join(__dirname, 'templates', 'validation-code.ejs');
 
 export async function sendEmailCode(email: string, code: number) {
-  return 'ok';
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.example.com', // SMTP сервер, например smtp.gmail.com для Gmail
-    port: 587, // Порт сервера (587 для TLS или 465 для SSL)
-    secure: false, // true для 465, false для других портов
-    auth: {
-      user: 'your-email@example.com', // Ваша почта
-      pass: 'your-email-password', // Пароль или специальный app password
-    },
-  });
+  const html = await ejs.renderFile(fileName, { code: code });
 
-  // Настройки письма
+  if (!html) {
+    console.error('Error: html is empty');
+  }
+
   const mailOptions = {
-    from: 'App backend test <test@example.com>',
+    from: 'App backend test',
     to: email,
-    subject: 'Ваш код для входа в сайт',
-    text: 'This message was sent from Node js server.',
-    html: `Your code: <i>${code}</i>.`,
+    subject: 'Code for login',
+    html,
   };
 
-  const result = await transporter.sendMail(mailOptions);
-
-  return result;
+  try {
+    const result = await transporter.sendMail(mailOptions);
+    console.log('Email code sended for email: ', email);
+    return result;
+  } catch (err) {
+    console.error('Email code not sended for email: ', email, err);
+    return err;
+  }
 }

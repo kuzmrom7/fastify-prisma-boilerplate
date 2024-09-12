@@ -4,6 +4,8 @@ import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/ema
 import { sendEmailCode } from '../../libs/mailer/send-mail';
 import { createAccount } from '../accounts/services/account-service';
 
+import { config } from '../../config';
+
 type LoginEmailAccountBody = {
   email: string;
 };
@@ -30,10 +32,13 @@ export async function refreshAccessToken(req: FastifyRequest, reply: FastifyRepl
 
 export async function loginEmail(req: FastifyRequest<{ Body: LoginEmailAccountBody }>, reply: FastifyReply) {
   const { email } = req.body;
-  const generatedCode = Math.floor(Math.random() * 100000);
+  const generatedCode =
+    config.nodeEnv === 'development' ? Number(config.dev.authCode) : Math.floor(Math.random() * 100000);
   await saveEmailCode(email, generatedCode);
   try {
-    sendEmailCode(email, generatedCode);
+    if (config.nodeEnv !== 'development') {
+      sendEmailCode(email, generatedCode);
+    }
   } catch (e) {
     console.log(e);
     return reply.code(400).send({ message: JSON.stringify(e) });

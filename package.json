@@ -20,6 +20,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@types/ejs": "^3.1.5",
     "@types/node": "^20.14.10",
     "eslint": "^9.9.1",
     "globals": "^15.9.0",
@@ -38,6 +39,7 @@
     "@fastify/swagger-ui": "^4.1.0",
     "@prisma/client": "^5.17.0",
     "@types/nodemailer": "^6.4.15",
+    "ejs": "^3.1.10",
     "fastify": "^4.28.1",
     "fastify-cookie": "^5.7.0",
     "fastify-jwt": "^4.2.0",
