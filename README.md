@@ -19,3 +19,8 @@ npx prisma studio
 ## prisma migrate up
 npx prisma migrate dev --name init
 ```
+
+## Dev
+```sh
+npm run dev
+```

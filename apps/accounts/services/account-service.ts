@@ -1,4 +1,4 @@
-import { prismaClient } from '../../../libs/db/prisma-client';
+import { prismaClient } from '../../../utils/db/prisma-client';
 
 export async function getAccountProfile(id: number) {
   const account = await prismaClient.account.findUnique({

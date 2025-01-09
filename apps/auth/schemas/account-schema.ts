@@ -28,3 +28,18 @@ export const LoginEmailValidateCodeSchema: FastifySchema = {
     },
   },
 };
+
+export const LoginEmailValidateSchema: FastifySchema = {
+  body: {
+    type: 'object',
+    properties: {
+      email: { type: 'string' },
+    },
+    required: ['email'],
+  },
+  response: {
+    200: {
+      type: 'string',
+    },
+  },
+};

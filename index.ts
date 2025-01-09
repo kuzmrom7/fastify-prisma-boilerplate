@@ -2,7 +2,7 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyJWT, { JWT } from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 
-import { disconnectDatabase } from './libs/db/connect';
+import { disconnectDatabase } from './utils/db/connect';
 import { config } from './config';
 
 declare module 'fastify' {
@@ -45,7 +45,7 @@ app.register(import('@fastify/swagger-ui'), {
     docExpansion: 'full',
     deepLinking: false,
   },
-  staticCSP: true,
+  staticCSP: false,
   transformStaticCSP: (header) => header,
   transformSpecification: (swaggerObject) => {
     return swaggerObject;

@@ -1,4 +1,4 @@
-import { prismaClient } from '../../libs/db/prisma-client';
+import { prismaClient } from '../../utils/db/prisma-client';
 
 export async function saveEmailCode(email: string, code: number) {
   await prismaClient.emailCode.upsert({
