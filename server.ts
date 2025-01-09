@@ -2,7 +2,7 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyJWT, { JWT } from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 
-import { disconnectDatabase } from './libs/db/connect';
+import { disconnectDatabase } from './utils/db/connect';
 import { config } from './config';
 
 declare module 'fastify' {
@@ -45,7 +45,7 @@ app.register(import('@fastify/swagger-ui'), {
     docExpansion: 'full',
     deepLinking: false,
   },
-  staticCSP: true,
+  staticCSP: false,
   transformStaticCSP: (header) => header,
   transformSpecification: (swaggerObject) => {
     return swaggerObject;
@@ -58,10 +58,10 @@ app.setErrorHandler(async (err, _, reply) => {
 });
 
 // api routes
-app.register(import('./apps/accounts/account-routes'), {
+app.register(import('./apps/accounts/account.routes'), {
   prefix: config.app.apiPrefix,
 });
-app.register(import('./apps/auth/auth-routes'), {
+app.register(import('./apps/auth/auth.routes'), {
   prefix: config.app.apiPrefix,
 });
 app.get('/healthcheck', (_, res) => {

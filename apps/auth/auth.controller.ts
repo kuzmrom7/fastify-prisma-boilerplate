@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { decodeToken, generatedAccessToken, generatedRefreshToken } from '../../libs/jwt/jwt';
-import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/email-code-service';
-import { sendEmailCode } from '../../libs/mailer/send-mail';
-import { createAccount } from '../accounts/services/account-service';
+import { decodeToken, generatedAccessToken, generatedRefreshToken } from '../../utils/jwt/jwt';
+import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/email-code.service';
+import { sendEmailCode } from '../../utils/mailer/send-mail';
+import { createAccount } from '../accounts/services/account.service';
 
 import { config } from '../../config';
 
@@ -84,7 +84,7 @@ export async function loginEmailValidateCode(
     .code(200)
     .send({
       token: accessToken,
-      profile: {
+      account: {
         id: account?.id,
         email: account?.email,
         phone: account?.phone,
