@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { getAccountById } from './services/account-service';
+import { getAccountById } from './services/account.service';
 
 export async function getSelfAccount(req: FastifyRequest, reply: FastifyReply) {
   const acc = await getAccountById(Number((req.user as { id: number }).id));

@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { getSelfAccount } from './account-controller';
-import { GetAccountSchema } from './schemas/account-schema';
+import { getSelfAccount } from './account.controller';
+import { GetAccountSchema } from './schemas/account.schema';
 
 async function routes(app: FastifyInstance) {
   const prefix = '/account';

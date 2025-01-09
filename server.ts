@@ -58,10 +58,10 @@ app.setErrorHandler(async (err, _, reply) => {
 });
 
 // api routes
-app.register(import('./apps/accounts/account-routes'), {
+app.register(import('./apps/accounts/account.routes'), {
   prefix: config.app.apiPrefix,
 });
-app.register(import('./apps/auth/auth-routes'), {
+app.register(import('./apps/auth/auth.routes'), {
   prefix: config.app.apiPrefix,
 });
 app.get('/healthcheck', (_, res) => {

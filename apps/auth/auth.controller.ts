@@ -1,8 +1,8 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { decodeToken, generatedAccessToken, generatedRefreshToken } from '../../utils/jwt/jwt';
-import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/email-code-service';
+import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/email-code.service';
 import { sendEmailCode } from '../../utils/mailer/send-mail';
-import { createAccount } from '../accounts/services/account-service';
+import { createAccount } from '../accounts/services/account.service';
 
 import { config } from '../../config';
 

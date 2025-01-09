@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
-import { loginEmail, loginEmailValidateCode, refreshAccessToken } from './auth-controller';
-import { LoginEmailValidateCodeSchema, LoginEmailValidateSchema, RefreshTokenSchema } from './schemas/auth-schemas';
+import { loginEmail, loginEmailValidateCode, refreshAccessToken } from './auth.controller';
+import { LoginEmailValidateCodeSchema, LoginEmailValidateSchema, RefreshTokenSchema } from './schemas/auth.schemas';
 
 async function routes(app: FastifyInstance) {
   const prefix = '/auth';

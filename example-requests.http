@@ -12,11 +12,11 @@ Content-Type: application/json
 
 {
   "email": "admin@gmail.com",
-  "code": "1234"
+  "code": "123456"
 }
 
 ### Get your profile 
-GET http://localhost:3003/api/account/profile HTTP/1.1
+GET http://localhost:3003/api/account HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoidGVzdEB0ZXN0LnJ1IiwiaWF0IjoxNzI1ODgwNjY0LCJleHAiOjE3MjU4ODE1NjR9.Ycj-3SA4g3s2bk1MB_HsZ0CW06yj0exjqf4Byxl2YfM
 
 ### Refresh token

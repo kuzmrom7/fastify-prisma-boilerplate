@@ -1,14 +1,18 @@
 {
-  "name": "app-backend",
+  "name": "fastify-prisma-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "fastify",
+    "node.js",
+    "typescript"
+  ],
   "license": "ISC",
-  "author": "",
-  "main": "index.js",
+  "author": "kuzmrom7",
+  "main": "server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon index.ts",
+    "dev": "nodemon server.ts",
     "format": "npx prettier --write .",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix ",
