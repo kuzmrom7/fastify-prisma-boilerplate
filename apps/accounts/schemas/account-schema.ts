@@ -1,28 +1,20 @@
 import { FastifySchema } from 'fastify';
 
-export const AccountLoginEmailValidateCodeSchema: FastifySchema = {
-  body: {
-    type: 'object',
-    properties: {
-      email: { type: 'string' },
-      code: { type: 'string' },
-    },
-    required: ['email'],
-  },
+const tags = ['Account'];
+
+export const GetAccountSchema: FastifySchema = {
+  tags,
   response: {
     200: {
       type: 'object',
       properties: {
-        profile: {
+        account: {
           type: 'object',
           properties: {
             id: { type: 'number' },
             email: { type: 'string' },
             phone: { type: 'string' },
           },
-        },
-        token: {
-          type: 'string',
         },
       },
     },

@@ -1,6 +1,6 @@
 import { prismaClient } from '../../../utils/db/prisma-client';
 
-export async function getAccountProfile(id: number) {
+export async function getAccountById(id: number) {
   const account = await prismaClient.account.findUnique({
     where: {
       id: Number(id),

@@ -1,6 +1,13 @@
 import { FastifySchema } from 'fastify';
 
+const tags = ['Auth'];
+
+export const RefreshTokenSchema: FastifySchema = {
+  tags,
+};
+
 export const LoginEmailValidateCodeSchema: FastifySchema = {
+  tags,
   body: {
     type: 'object',
     properties: {
@@ -13,7 +20,7 @@ export const LoginEmailValidateCodeSchema: FastifySchema = {
     200: {
       type: 'object',
       properties: {
-        profile: {
+        account: {
           type: 'object',
           properties: {
             id: { type: 'number' },
@@ -30,6 +37,7 @@ export const LoginEmailValidateCodeSchema: FastifySchema = {
 };
 
 export const LoginEmailValidateSchema: FastifySchema = {
+  tags,
   body: {
     type: 'object',
     properties: {

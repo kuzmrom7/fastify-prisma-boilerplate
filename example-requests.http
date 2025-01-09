@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### validate code
-POST http://localhost:3003/api/auth/login/email/validate-code HTTP/1.1
+POST http://localhost:3003/api/auth/validate-email-code HTTP/1.1
 Content-Type: application/json
 
 {

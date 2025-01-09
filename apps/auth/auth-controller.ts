@@ -84,7 +84,7 @@ export async function loginEmailValidateCode(
     .code(200)
     .send({
       token: accessToken,
-      profile: {
+      account: {
         id: account?.id,
         email: account?.email,
         phone: account?.phone,

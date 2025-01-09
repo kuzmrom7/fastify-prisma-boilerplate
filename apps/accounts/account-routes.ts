@@ -1,11 +1,12 @@
 import { FastifyInstance } from 'fastify';
-import { getProfile } from './account-controller';
+import { getSelfAccount } from './account-controller';
+import { GetAccountSchema } from './schemas/account-schema';
 
 async function routes(app: FastifyInstance) {
   const prefix = '/account';
   app.register(
     async (accountRoutes) => {
-      accountRoutes.get('/profile', { preHandler: [app.authenticate] }, getProfile);
+      accountRoutes.get('/', { preHandler: [app.authenticate], schema: GetAccountSchema }, getSelfAccount);
     },
     { prefix }
   );
