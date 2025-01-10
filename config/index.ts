@@ -2,6 +2,7 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   app: {
     port: process.env.PORT || 3000,
+    logLevel: process.env.LOG_LEVEL || 'info',
     apiPrefix: process.env.API_PREFIX || '/api',
     swaggerPath: process.env.SWAGGER_PATH || '/api/docs',
   },

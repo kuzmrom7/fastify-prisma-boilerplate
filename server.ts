@@ -4,6 +4,7 @@ import fastifyCookie from '@fastify/cookie';
 
 import { disconnectDatabase } from './utils/db/connect';
 import { config } from './config';
+import { logger } from './logger';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -15,9 +16,7 @@ declare module 'fastify' {
 }
 
 const app = Fastify({
-  logger: {
-    level: 'info',
-  },
+  loggerInstance: logger,
 });
 
 // authentication
