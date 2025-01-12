@@ -20,7 +20,7 @@ const app = Fastify({
 });
 
 // authentication
-app.register(fastifyJWT, { secret: config.jwt.secret }); // todo: move to key file
+app.register(fastifyJWT, { secret: config.jwt.access.secret }); // todo: move to key file
 app.register(fastifyCookie);
 app.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
   try {

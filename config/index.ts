@@ -10,7 +10,14 @@ export const config = {
     authCode: process.env.DEV_AUTH_CODE || '123456',
   },
   jwt: {
-    secret: process.env.JWT_SECRET || 'default_jwt_secret',
+    access: {
+      secret: process.env.JWT_SECRET || 'default_jwt_access_token_secret',
+      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN || '1h',
+    },
+    refresh: {
+      secret: process.env.JWT_SECRET || 'default_jwt_refresh_token_secret',
+      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN || '1h',
+    },
   },
   mail: {
     client: process.env.SMTP_CLIENT || 'gmail',
