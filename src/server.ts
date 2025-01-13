@@ -2,7 +2,6 @@ import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyJWT, { JWT } from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
 
-import { disconnectDatabase } from './utils/db/connect';
 import { config } from './config';
 import { logger } from './logger';
 
@@ -57,42 +56,15 @@ app.setErrorHandler(async (err, _, reply) => {
 });
 
 // api routes
-app.register(import('./apps/accounts/account.routes'), {
+app.register(import('./modules/accounts/account.routes'), {
   prefix: config.app.apiPrefix,
 });
-app.register(import('./apps/auth/auth.routes'), {
+app.register(import('./modules/auth/auth.routes'), {
   prefix: config.app.apiPrefix,
 });
+
 app.get('/healthcheck', (_, res) => {
   res.send({ message: 'Success' });
 });
 
-async function main() {
-  app.listen({ port: +config.app.port }, (err, address) => {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    console.log(`Server listening at ${address}`);
-  });
-}
-
-// shutdown
-const listeners = ['SIGINT', 'SIGTERM'];
-listeners.forEach((signal) => {
-  process.on(signal, async () => {
-    await app.close();
-    await disconnectDatabase();
-    process.exit(0);
-  });
-});
-
-main()
-  .then(async () => {
-    await disconnectDatabase();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await disconnectDatabase();
-    process.exit(1);
-  });
+export default app;
