@@ -1,25 +1,11 @@
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
-import fastifyJWT, { JWT } from '@fastify/jwt';
+import fastifyJWT from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
-import { PrismaClient } from '@prisma/client';
 
 import swaggerPlugin from './plugins/swagger';
 import prismaPlusin from './plugins/prisma';
 import { config } from './config';
 import { logger } from './logger';
-
-declare module 'fastify' {
-  interface FastifyInstance {
-    authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
-  }
-  interface FastifyRequest {
-    jwt: JWT;
-  }
-
-  interface FastifyInstance {
-    prisma: PrismaClient;
-  }
-}
 
 const app = Fastify({
   loggerInstance: logger,
