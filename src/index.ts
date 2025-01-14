@@ -1,5 +1,5 @@
 import app from './server';
-import { config } from './config';
+import config from './config';
 
 async function start() {
   await app.ready();

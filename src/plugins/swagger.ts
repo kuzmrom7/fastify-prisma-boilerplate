@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-import { config } from '../config';
+import config from '../config';
 
 export default fp(async function swaggerPlugin(app) {
   await app.register(import('@fastify/swagger'), {

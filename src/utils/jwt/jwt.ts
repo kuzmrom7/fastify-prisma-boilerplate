@@ -1,5 +1,5 @@
 import { JWT } from '@fastify/jwt';
-import { config } from '../../config';
+import config from '../../config';
 
 export type TokenPayload = {
   id: string;

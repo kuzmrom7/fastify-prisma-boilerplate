@@ -4,7 +4,7 @@ import { deleteEmailCode, getEmailCode, saveEmailCode } from '../email-codes/ema
 import { sendEmailCode } from '../../utils/mailer/send-mail';
 import { createAccount } from '../accounts/services/account.service';
 
-import { config } from '../../config';
+import config from '../../config';
 
 type LoginEmailAccountBody = {
   email: string;

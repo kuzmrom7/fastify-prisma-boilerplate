@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-export const config = {
+export default {
   nodeEnv: process.env.NODE_ENV || 'development',
   app: {
     port: process.env.PORT || 3000,

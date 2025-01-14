@@ -2,7 +2,7 @@ import path from 'node:path';
 import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 
-import { config } from '../../config';
+import config from '../../config';
 
 const transporter = nodemailer.createTransport({
   service: config.mail.client,

@@ -5,8 +5,8 @@ import gracefulShutdown from 'fastify-graceful-shutdown';
 
 import swaggerPlugin from './plugins/swagger';
 import prismaPlusin from './plugins/prisma';
-import { config } from './config';
-import { logger } from './logger';
+import config from './config';
+import logger from './logger';
 
 const app = Fastify({
   loggerInstance: logger,
