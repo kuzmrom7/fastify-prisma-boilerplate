@@ -12,15 +12,4 @@ async function start() {
   }
 }
 
-// shutdown
-// const listeners = ['SIGINT', 'SIGTERM'];
-// listeners.forEach((signal) => {
-//   process.on(signal, async () => {
-//     await app.close();
-
-//     await app.prisma.$disconnect();
-//     process.exit(0);
-//   });
-// });
-
 start();
