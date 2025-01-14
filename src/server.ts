@@ -1,8 +1,10 @@
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyJWT, { JWT } from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
+import { PrismaClient } from '@prisma/client';
 
 import swaggerPlugin from './plugins/swagger';
+import prismaPlusin from './plugins/prisma';
 import { config } from './config';
 import { logger } from './logger';
 
@@ -13,6 +15,10 @@ declare module 'fastify' {
   interface FastifyRequest {
     jwt: JWT;
   }
+
+  interface FastifyInstance {
+    prisma: PrismaClient;
+  }
 }
 
 const app = Fastify({
@@ -21,6 +27,7 @@ const app = Fastify({
 
 // plugins
 app.register(swaggerPlugin);
+app.register(prismaPlusin);
 app.register(fastifyJWT, { secret: config.jwt.access.secret });
 app.register(fastifyCookie);
 
