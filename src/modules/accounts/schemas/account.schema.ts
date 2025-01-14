@@ -4,6 +4,7 @@ const tags = ['Account'];
 
 export const GetAccountSchema: FastifySchema = {
   tags,
+  security: [{ bearerAuth: [] }],
   response: {
     200: {
       type: 'object',
