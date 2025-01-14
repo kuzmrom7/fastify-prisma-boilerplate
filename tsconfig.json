@@ -1,9 +1,9 @@
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
     "target": "ES2020",
-    "noEmit": true,
-
     "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
