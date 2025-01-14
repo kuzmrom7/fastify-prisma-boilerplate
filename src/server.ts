@@ -1,6 +1,7 @@
 import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import fastifyJWT from '@fastify/jwt';
 import fastifyCookie from '@fastify/cookie';
+import gracefulShutdown from 'fastify-graceful-shutdown';
 
 import swaggerPlugin from './plugins/swagger';
 import prismaPlusin from './plugins/prisma';
@@ -16,6 +17,7 @@ app.register(swaggerPlugin);
 app.register(prismaPlusin);
 app.register(fastifyJWT, { secret: config.jwt.access.secret });
 app.register(fastifyCookie);
+app.register(gracefulShutdown);
 
 app.setErrorHandler(async (err, _, reply) => {
   reply.code(500).send({ message: 'Internal server error', err: err });
@@ -34,8 +36,7 @@ app.get('/healthcheck', (_, res) => {
 
 app.decorate('authenticate', async function (request: FastifyRequest, reply: FastifyReply) {
   try {
-    // Authorization: Bearer <token>
-    await request.jwtVerify();
+    await request.jwtVerify(); // Authorization: Bearer <token>
   } catch (err) {
     console.error(err);
     return reply.code(401).send({ message: 'Unauthorized' });
@@ -44,6 +45,16 @@ app.decorate('authenticate', async function (request: FastifyRequest, reply: Fas
 app.addHook('preHandler', (request: FastifyRequest, _, next) => {
   request.jwt = app.jwt;
   return next();
+});
+
+app.after((error) => {
+  if (error) {
+    app.log.error(error);
+  }
+  app.gracefulShutdown((signal) => {
+    app.prisma.$disconnect(); // disconnect from prisma
+    app.log.info('Received signal to shutdown: %s', signal);
+  });
 });
 
 export default app;
