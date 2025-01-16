@@ -16,6 +16,7 @@ export const GetAccountSchema: FastifySchema = {
             email: { type: 'string' },
             phone: { type: 'string' },
           },
+          required: ['id'],
         },
       },
     },

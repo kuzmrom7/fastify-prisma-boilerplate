@@ -23,7 +23,7 @@ export async function refreshAccessToken(req: FastifyRequest, reply: FastifyRepl
     const decoded = await decodeToken(req.jwt, refreshToken);
     const newAccessToken = await generatedAccessToken(req.jwt, decoded.id, decoded.email);
 
-    reply.send({ accessToken: newAccessToken });
+    reply.send({ token: newAccessToken });
   } catch (err) {
     console.log(err);
     reply.code(401).send({ message: 'Invalid refresh token' });
