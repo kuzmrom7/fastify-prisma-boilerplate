@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { loginEmail, loginEmailValidateCode, refreshAccessToken } from './auth.controller';
+import authContoller from './auth.controller';
 import { LoginEmailValidateCodeSchema, LoginEmailValidateSchema, RefreshTokenSchema } from './schemas/auth.schemas';
 
 async function routes(app: FastifyInstance) {
@@ -7,9 +7,13 @@ async function routes(app: FastifyInstance) {
 
   app.register(
     async (route) => {
-      route.post('/login/email', { schema: LoginEmailValidateSchema }, loginEmail);
-      route.post('/validate-email-code', { schema: LoginEmailValidateCodeSchema }, loginEmailValidateCode);
-      route.post('/refresh-token', { schema: RefreshTokenSchema }, refreshAccessToken);
+      route.post('/login/email', { schema: LoginEmailValidateSchema }, authContoller.loginEmail);
+      route.post(
+        '/validate-email-code',
+        { schema: LoginEmailValidateCodeSchema },
+        authContoller.loginEmailValidateCode
+      );
+      route.post('/refresh-token', { schema: RefreshTokenSchema }, authContoller.refreshAccessToken);
     },
     { prefix }
   );
