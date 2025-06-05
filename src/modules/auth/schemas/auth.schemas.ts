@@ -4,6 +4,17 @@ const tags = ['Auth'];
 
 export const RefreshTokenSchema: FastifySchema = {
   tags,
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        token: {
+          type: 'string',
+        },
+      },
+      required: ['token'],
+    },
+  },
 };
 
 export const LoginEmailValidateCodeSchema: FastifySchema = {
@@ -27,11 +38,13 @@ export const LoginEmailValidateCodeSchema: FastifySchema = {
             email: { type: 'string' },
             phone: { type: 'string' },
           },
+          required: ['id'],
         },
         token: {
           type: 'string',
         },
       },
+      required: ['token', 'account'],
     },
   },
 };
