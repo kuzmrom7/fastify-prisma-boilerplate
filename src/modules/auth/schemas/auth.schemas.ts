@@ -14,7 +14,7 @@ export const LoginEmailValidateCodeSchema: FastifySchema = {
       email: { type: 'string' },
       code: { type: 'string' },
     },
-    required: ['email'],
+    required: ['email', 'code'],
   },
   response: {
     200: {
